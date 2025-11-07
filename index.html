@@ -82,12 +82,22 @@
                     <span class="font-medium text-gray-600 text-sm">參加人物論壇:</span>
                     <span id="confirmForum" class="font-semibold text-gray-900 text-base"></span>
                 </div>
+                
+                <!-- (*** 新增欄位 ***) -->
+                <div class="flex justify-between border-t border-blue-200 pt-2 mt-2">
+                    <span class="font-medium text-gray-600 text-sm">目前回覆狀態:</span>
+                    <span id="confirmStatus" class="font-semibold text-base"></span>
+                </div>
+                <!-- (*** 新增欄位 ***) -->
+                
             </div>
 
-            <p class="text-gray-700 text-center mb-4 font-medium">請選擇您的回覆：</p>
+            <!-- (*** ID 已新增 ***) -->
+            <p id="updatePrompt" class="text-gray-700 text-center mb-4 font-medium">您可以更新您的回覆：</p>
 
+            <!-- (*** ID 已新增 ***) -->
             <!-- 按鈕群組 -->
-            <div class="space-y-3">
+            <div id="buttonGroup" class="space-y-3">
                 <button id="confirmButton" class="w-full bg-green-600 text-white font-semibold py-3 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out text-base">
                     ✅ 確定本人會出席參與
                 </button>
@@ -117,8 +127,8 @@
     </div>
 
     <script>
-        // !!重要!! 您的 Apps Script URL 已更新
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyrKp7LYfNJBuqPiWIN7M55dGXsDhKk5qsLz42YpQrtfdR316CHLUsbnoHAG9cKPeir/exec";
+        // !!重要!! 您的 Apps Script URL
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwmn0THmVnBCIp_GZurdvfLNN3J1A7ESvJZAoqVXBNjn9smKpZxoyKqjYwypH5iZtEu/exec";
 
         // 取得頁面元素
         const searchStage = document.getElementById('searchStage');
@@ -135,6 +145,11 @@
         const regIdInput = document.getElementById('registrationId');
         const searchMessage = document.getElementById('searchMessage');
         const finalMessage = document.getElementById('finalMessage');
+        
+        // (*** 新增元素 ***)
+        const updatePrompt = document.getElementById('updatePrompt');
+        const buttonGroup = document.getElementById('buttonGroup');
+
 
         // 用於儲存搜尋到的資料，以便更新時使用
         let currentData = {};
@@ -190,6 +205,30 @@
                     document.getElementById('confirmSession').textContent = data.session; // 顯示 C 欄
                     document.getElementById('confirmForum').textContent = data.forum;   // 顯示 H 欄
                     
+                    // (*** 邏輯已更新 ***)
+                    const statusSpan = document.getElementById('confirmStatus');
+                    
+                    if (data.status === '是') {
+                        statusSpan.textContent = '✅ 確定本人會出席參與';
+                        statusSpan.className = 'font-semibold text-green-600 text-base';
+                        // (新功能) 隱藏按鈕
+                        updatePrompt.classList.add('hidden');
+                        buttonGroup.classList.add('hidden');
+                    } else if (data.status === '否') {
+                        statusSpan.textContent = '❌ 不克出席，名額將釋出';
+                        statusSpan.className = 'font-semibold text-red-600 text-base';
+                        // (新功能) 隱藏按鈕
+                        updatePrompt.classList.add('hidden');
+                        buttonGroup.classList.add('hidden');
+                    } else {
+                        statusSpan.textContent = '尚未回覆';
+                        statusSpan.className = 'font-semibold text-gray-500 text-base';
+                        // (新功能) 顯示按鈕
+                        updatePrompt.classList.remove('hidden');
+                        buttonGroup.classList.remove('hidden');
+                    }
+                    // (*** 邏輯更新結束 ***)
+
                     showStage('confirmation');
                 } else {
                     searchMessage.textContent = result.message || '找不到您的報名資料，請確認輸入是否正確。';
