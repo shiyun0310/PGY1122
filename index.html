@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>奇美醫學中心 PGY 說明會 出席確認系統</title>
-    <!-- 載入 Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 載入 Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 載入 Inter 字體 */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -27,20 +26,19 @@
 </head>
 <body class="bg-blue-50 min-h-screen flex items-center justify-center p-4">
 
-    <!-- 主容器 -->
-    <div class="max-w-md w-full">
+    <!-- 主容器 --><div class="max-w-md w-full">
 
-        <!-- 系統卡片 -->
-        <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+        <!-- 系統卡片 --><div class="bg-white rounded-lg shadow-xl overflow-hidden">
             
-            <!-- 卡片標頭 -->
-            <div class="bg-blue-800 p-6">
+            <!-- 卡片標頭 --><div class="bg-blue-800 p-6">
                 <h1 class="text-2xl font-bold text-white text-center">奇美醫學中心</h1>
-                <h2 class="text-xl font-semibold text-blue-100 text-center mt-1">115 PGY 說明會 出席確認系統</h2>
+                <!-- (*** 字眼已調整 ***) --><h2 class="text-2xl font-semibold text-white text-center mt-2">115 PGY說明會 出席確認系統</h2>
+                <!-- (*** 字眼已調整 ***) --><p class="text-center font-semibold text-yellow-300 mt-3">
+                    **說明會僅開放現場參加，無線上參與**
+                </p>
             </div>
 
-            <!-- 階段一：搜尋表單 -->
-            <div id="searchStage" class="p-6 md:p-8 space-y-5">
+            <!-- 階段一：搜尋表單 --><div id="searchStage" class="p-6 md:p-8 space-y-5">
                 <p class="text-gray-700 text-center">請輸入您的報名資料：</p>
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700">😄 姓名 (必填)</label>
@@ -63,16 +61,13 @@
                     搜尋 🔍
                 </button>
                 
-                <!-- 訊息提示區域 -->
-                <div id="searchMessage" class="text-center text-red-600 font-medium"></div>
+                <!-- 訊息提示區域 --><div id="searchMessage" class="text-center text-red-600 font-medium"></div>
             </div>
 
-            <!-- 階段二：確認資料並回覆 -->
-            <div id="confirmationStage" class="p-6 md:p-8 hidden">
+            <!-- 階段二：確認資料並回覆 --><div id="confirmationStage" class="p-6 md:p-8 hidden">
                 <h3 class="text-xl font-bold text-gray-900 text-center mb-5">請確認您的資料</h3>
                 
-                <!-- 資料顯示列表 (更緊湊) -->
-                <div class="bg-blue-50 rounded-lg p-4 space-y-2 mb-6 border border-blue-200">
+                <!-- 資料顯示列表 (更緊湊) --><div class="bg-blue-50 rounded-lg p-4 space-y-2 mb-6 border border-blue-200">
                     <div class="flex justify-between">
                         <span class="font-medium text-gray-600 text-sm">姓名:</span>
                         <span id="confirmName" class="font-semibold text-gray-900 text-base"></span>
@@ -102,8 +97,7 @@
                         <span id="confirmForum" class="font-semibold text-gray-900 text-base"></span>
                     </div>
                     
-                    <!-- (新功能) 顯示目前回覆狀態 -->
-                    <div class="pt-2 border-t border-blue-200">
+                    <!-- (新功能) 顯示目前回覆狀態 --><div class="pt-2 border-t border-blue-200">
                         <div class="flex justify-between items-center">
                             <span class="font-medium text-gray-600 text-sm">目前回覆狀態:</span>
                             <span id="confirmStatus" class="font-semibold text-gray-900 text-base"></span>
@@ -116,8 +110,7 @@
 
                 <p id="replyTitle" class="text-gray-700 text-center mb-4 font-medium">請選擇您的回覆：</p>
 
-                <!-- 按鈕群組 (預設隱藏) -->
-                <div id="buttonGroup" class="space-y-3 hidden">
+                <!-- 按鈕群組 (預設隱藏) --><div id="buttonGroup" class="space-y-3 hidden">
                     <button id="confirmButton" class="w-full bg-green-600 text-white font-semibold py-3 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out text-base">
                         ✅ 確定本人會出席參與
                     </button>
@@ -126,14 +119,12 @@
                     </button>
                 </div>
                 
-                <!-- 返回按鈕 -->
-                <button id="backButton" class="w-full text-center text-gray-600 hover:text-blue-700 font-medium mt-4 text-sm">
+                <!-- 返回按鈕 --><button id="backButton" class="w-full text-center text-gray-600 hover:text-blue-700 font-medium mt-4 text-sm">
                     &larr; 返回重新搜尋
                 </button>
             </div>
             
-            <!-- 階段三：完成訊息 -->
-            <div id="successMessage" class="p-6 md:p-8 hidden">
+            <!-- 階段三：完成訊息 --><div id="successMessage" class="p-6 md:p-8 hidden">
                 <div class="text-center">
                     <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <h3 class="text-2xl font-bold text-gray-900 mb-2">回覆已送出！</h3>
@@ -144,11 +135,9 @@
                 </div>
             </div>
 
-            <!-- 卡片內部的聯絡資訊 -->
-            <div class="border-t border-gray-200 bg-gray-50 px-6 py-5">
+            <!-- 卡片內部的聯絡資訊 --><div class="border-t border-gray-200 bg-gray-50 px-6 py-5">
                 
-                <!-- (*** 字體已放大 ***) -->
-                <p class="text-center text-sm text-gray-600 mb-3">
+                <!-- (*** 字體已放大 ***) --><p class="text-center text-sm text-gray-600 mb-3">
                     PGY說明會連結：<a href="https://qpig0218.github.io/PGY-IPEintro/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">點此前往</a>
                 </p>
 
