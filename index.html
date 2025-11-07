@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奇美醫學中心 PGY 說明會 出席確認系統</title>
+    <!-- 載入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 載入 Inter 字體 */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        }
+        /* 隱藏區塊的 helper class */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-blue-50 min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-md w-full bg-white rounded-lg shadow-xl overflow-hidden">
+        
+        <!-- 卡片標頭 -->
+        <div class="bg-blue-800 p-6">
+            <h1 class="text-2xl font-bold text-white text-center">奇美醫學中心</h1>
+            <h2 class="text-xl font-semibold text-blue-100 text-center mt-1">115 PGY 說明會 出席確認系統</h2>
+        </div>
+
+        <!-- 階段一：搜尋表單 -->
+        <div id="searchStage" class="p-6 md:p-8 space-y-5">
+            <p class="text-gray-700 text-center">請輸入您的報名資料：</p>
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">😄姓名</label>
+                <input type="text" id="name" name="name" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="請輸入您的姓名">
+            </div>
+            <div>
+                <label for="registrationId" class="block text-sm font-medium text-gray-700"> 📄報名序號</label>
+                <input type="text" id="registrationId" name="registrationId" class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="請輸入報名時,系統寄給您的報名序號">
+            </div>
+            
+            <button id="searchButton" class="w-full bg-blue-700 text-white font-semibold py-3 px-4 rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out text-base">
+                搜尋🔍
+            </button>
+            
+            <!-- 訊息提示區域 -->
+            <div id="searchMessage" class="text-center text-red-600 font-medium"></div>
+        </div>
+
+        <!-- 階段二：確認資料並回覆 -->
+        <div id="confirmationStage" class="p-6 md:p-8 hidden">
+            <h3 class="text-xl font-bold text-gray-900 text-center mb-5">請確認您的資料</h3>
+            
+            <!-- 資料顯示列表 (更緊湊) -->
+            <div class="bg-blue-50 rounded-lg p-4 space-y-2 mb-6 border border-blue-200">
+                <div class="flex justify-between">
+                    <span class="font-medium text-gray-600 text-sm">姓名:</span>
+                    <span id="confirmName" class="font-semibold text-gray-900 text-base"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-medium text-gray-600 text-sm">報名序號:</span>
+                    <span id="confirmRegId" class="font-semibold text-gray-900 text-base"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-medium text-gray-600 text-sm">E-mail:</span>
+                    <span id="confirmEmail" class="font-semibold text-gray-900 text-base"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-medium text-gray-600 text-sm">所屬學校:</span>
+                    <span id="confirmSchool" class="font-semibold text-gray-900 text-base"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-medium text-gray-600 text-sm">年制:</span>
+                    <span id="confirmYear" class="font-semibold text-gray-900 text-base"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-medium text-gray-600 text-sm">參加說明會場次:</span>
+                    <span id="confirmSession" class="font-semibold text-gray-900 text-base"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="font-medium text-gray-600 text-sm">參加人物論壇:</span>
+                    <span id="confirmForum" class="font-semibold text-gray-900 text-base"></span>
+                </div>
+            </div>
+
+            <p class="text-gray-700 text-center mb-4 font-medium">請選擇您的回覆：</p>
+
+            <!-- 按鈕群組 -->
+            <div class="space-y-3">
+                <button id="confirmButton" class="w-full bg-green-600 text-white font-semibold py-3 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out text-base">
+                    ✅ 確定本人會出席參與
+                </button>
+                <button id="cancelButton" class="w-full bg-red-600 text-white font-semibold py-3 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out text-base">
+                    ❌ 不克出席，名額將釋出
+                </button>
+            </div>
+            
+            <!-- 返回按鈕 -->
+            <button id="backButton" class="w-full text-center text-gray-600 hover:text-blue-700 font-medium mt-4 text-sm">
+                &larr; 返回重新搜尋
+            </button>
+        </div>
+        
+        <!-- 階段三：完成訊息 -->
+        <div id="successMessage" class="p-6 md:p-8 hidden">
+            <div class="text-center">
+                <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">回覆已送出！</h3>
+                <p class="text-gray-700" id="finalMessage"></p>
+                <button id="resetButton" class="mt-6 w-full bg-blue-700 text-white font-semibold py-3 px-4 rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out text-base">
+                    返回首頁
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // !!重要!! 您的 Apps Script URL 已更新
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyrKp7LYfNJBuqPiWIN7M55dGXsDhKk5qsLz42YpQrtfdR316CHLUsbnoHAG9cKPeir/exec";
+
+        // 取得頁面元素
+        const searchStage = document.getElementById('searchStage');
+        const confirmationStage = document.getElementById('confirmationStage');
+        const successMessage = document.getElementById('successMessage');
+
+        const searchButton = document.getElementById('searchButton');
+        const confirmButton = document.getElementById('confirmButton');
+        const cancelButton = document.getElementById('cancelButton');
+        const backButton = document.getElementById('backButton');
+        const resetButton = document.getElementById('resetButton');
+
+        const nameInput = document.getElementById('name');
+        const regIdInput = document.getElementById('registrationId');
+        const searchMessage = document.getElementById('searchMessage');
+        const finalMessage = document.getElementById('finalMessage');
+
+        // 用於儲存搜尋到的資料，以便更新時使用
+        let currentData = {};
+
+        // 顯示特定階段
+        function showStage(stage) {
+            searchStage.classList.add('hidden');
+            confirmationStage.classList.add('hidden');
+            successMessage.classList.add('hidden');
+            
+            if (stage === 'search') {
+                searchStage.classList.remove('hidden');
+            } else if (stage === 'confirmation') {
+                confirmationStage.classList.remove('hidden');
+            } else if (stage === 'success') {
+                successMessage.classList.remove('hidden');
+            }
+        }
+
+        // 處理搜尋
+        async function handleSearch() {
+            const name = nameInput.value.trim();
+            const registrationId = regIdInput.value.trim();
+
+            if (!name || !registrationId) {
+                searchMessage.textContent = '姓名和報名序號皆不可空白。';
+                return;
+            }
+
+            searchButton.disabled = true;
+            searchButton.textContent = '搜尋中...';
+            searchMessage.textContent = '';
+
+            try {
+                // 使用 GET 請求 (doGet) 搜尋資料
+                const response = await fetch(`${GAS_WEB_APP_URL}?name=${encodeURIComponent(name)}&registrationId=${encodeURIComponent(registrationId)}`, {
+                    method: 'GET',
+                    redirect: 'follow'
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    const data = result.data;
+                    currentData = { name, registrationId }; // 儲存關鍵資料
+
+                    // 填入確認畫面的資料
+                    document.getElementById('confirmName').textContent = data.name;
+                    document.getElementById('confirmRegId').textContent = data.registrationId;
+                    document.getElementById('confirmEmail').textContent = data.email;
+                    document.getElementById('confirmSchool').textContent = data.school;
+                    document.getElementById('confirmYear').textContent = data.year;
+                    document.getElementById('confirmSession').textContent = data.session; // 顯示 C 欄
+                    document.getElementById('confirmForum').textContent = data.forum;   // 顯示 H 欄
+                    
+                    showStage('confirmation');
+                } else {
+                    searchMessage.textContent = result.message || '找不到您的報名資料，請確認輸入是否正確。';
+                }
+
+            } catch (error) {
+                console.error('搜尋失敗:', error);
+                searchMessage.textContent = '搜尋時發生錯誤，請稍後再試。';
+            } finally {
+                searchButton.disabled = false;
+                searchButton.textContent = '搜尋🔍';
+            }
+        }
+
+        // 處理狀態更新 (確定/取消)
+        async function handleUpdate(status) {
+            // 禁用按鈕
+            confirmButton.disabled = true;
+            cancelButton.disabled = true;
+            
+            const buttonToUpdate = (status === '是') ? confirmButton : cancelButton;
+            buttonToUpdate.textContent = '處理中...';
+
+            const payload = {
+                name: currentData.name,
+                registrationId: currentData.registrationId,
+                status: status // '是' 或 '否'
+            };
+
+            try {
+                // 使用 POST 請求 (doPost) 更新資料
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // doPost 跨域通常使用 no-cors
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                // 由於 'no-cors' 模式無法讀取回應，我們直接假設成功
+                if (status === '是') {
+                    finalMessage.textContent = '感謝您的確認，期待您的蒞臨！';
+                } else {
+                    finalMessage.textContent = '我們已收到您的回覆，已將名額釋出。';
+                }
+                showStage('success');
+
+            } catch (error) {
+                console.error('更新失敗:', error);
+                // D 顯示錯誤（雖然在 'no-cors' 下很難抓到具體錯誤）
+                alert('更新時發生錯誤，請稍後再試。');
+            } finally {
+                // 重設按鈕狀態
+                confirmButton.disabled = false;
+                cancelButton.disabled = false;
+                confirmButton.textContent = '✅ 確定本人會出席參與';
+                cancelButton.textContent = '❌ 不克出席，名額將釋出';
+            }
+        }
+
+        // 重設整個流程
+        function resetApp() {
+            nameInput.value = '';
+            regIdInput.value = '';
+            searchMessage.textContent = '';
+            currentData = {};
+            showStage('search');
+        }
+
+        // 綁定事件監聽
+        searchButton.addEventListener('click', handleSearch);
+        confirmButton.addEventListener('click', () => handleUpdate('是'));
+        cancelButton.addEventListener('click', () => handleUpdate('否'));
+        backButton.addEventListener('click', resetApp);
+        resetButton.addEventListener('click', resetApp);
+    </script>
+
+</body>
+</html>
